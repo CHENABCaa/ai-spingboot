@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    # 本地默认连 localhost；部署时用环境变量 DB_URL 覆盖（如云数据库地址）
+    url: ${DB_URL:jdbc:mysql://localhost:3306/mental_health_assistant?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456789}
+
+  ai:
+    openai:
+      chat:
+        options:
+          model: ${AI_MODEL:deepseek-chat}
+          tool-calling:
+            enabled: true
+        completions-path: /v1/chat/completions
+      # 部署时用环境变量 AI_API_KEY 覆盖，避免密钥写死在仓库里
+      api-key: ${AI_API_KEY:sk-your-api-key-here}
+      base-url: ${AI_BASE_URL:https://api.deepseek.com}
+# 服务器配置（云平台一般用环境变量 PORT 指定端口）
+server:
+  port: ${PORT:1236}
+
+# JWT配置（部署时用环境变量 JWT_SECRET 覆盖）
+jwt:
+  secret: ${JWT_SECRET:MySecretKeyForJWT2025!@#$%^&*()_+SecureKeyHere}
+  expiration: 86400000  # 24小时（毫秒）
+  refresh-expiration: 604800000  # 7天（毫秒）
+  header: Authorization  # token头部名称
+  token-prefix: "Bearer "  # token前缀
+
